@@ -271,10 +271,12 @@ module Ridgepole
           definition_delta[:add] ||= {}
           to_attrs[:options] ||= {}
 
-          if priv_column_name
-            to_attrs[:options][:after] = priv_column_name
-          else
-            to_attrs[:options][:first] = true
+          unless Ridgepole::ConnectionAdapters.sqlite3?
+            if priv_column_name
+              to_attrs[:options][:after] = priv_column_name
+            else
+              to_attrs[:options][:first] = true
+            end
           end
 
           definition_delta[:add][column_name] = to_attrs
